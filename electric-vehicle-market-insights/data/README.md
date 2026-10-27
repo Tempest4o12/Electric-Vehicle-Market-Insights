@@ -1,0 +1,1 @@
+The repository includes `ev_market_sample.csv` (500 rows) for a quick demo. For the complete analysis, copy `ev_market_train.csv` from the provided ZIP into this folder. Do not commit the full dataset unless the dataset license permits redistribution. `scripts/download_data.py` can download the Kaggle dataset if access is available.

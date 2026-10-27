@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EV Market | Performance & Insights</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">⚡ EV<span>INSIGHTS</span></a>
+  <nav><a href="#overview">Overview</a><a href="#analytics">Analytics</a><a href="#story">Story</a><a href="#tableau">Tableau</a></nav>
+</header>
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">DATA ANALYTICS · TABLEAU · FLASK</p>
+    <h1>Electric Vehicle<br><span>Market Performance</span></h1>
+    <p class="lead">Explore EV sales, range, battery performance, customer ratings and regional patterns through one interactive analytics experience.</p>
+    <div class="hero-actions"><a class="button primary" href="#overview">Explore dashboard</a><a class="button secondary" href="#story">Read the story</a></div>
+    <p class="data-note">{{ data_note }}</p>
+  </div>
+  <div class="hero-art"><div class="orb"></div><div class="car-card"><div class="bolt">⚡</div><strong>EV MARKET</strong><small>PERFORMANCE & INSIGHTS</small><div class="car-line"></div></div></div>
+</section>
+<main>
+<section id="overview" class="section">
+  <div class="section-heading"><div><p class="eyebrow">MARKET AT A GLANCE</p><h2>Key performance indicators</h2></div><p>Metrics update with the filters below.</p></div>
+  <form class="filters" method="get" action="/">
+    <label>Manufacturer<select name="manufacturer"><option>All</option>{% for v in options.manufacturers %}<option value="{{v}}" {% if filters.manufacturer==v %}selected{% endif %}>{{v}}</option>{% endfor %}</select></label>
+    <label>Market region<select name="region"><option>All</option>{% for v in options.regions %}<option value="{{v}}" {% if filters.region==v %}selected{% endif %}>{{v}}</option>{% endfor %}</select></label>
+    <label>Vehicle category<select name="category"><option>All</option>{% for v in options.categories %}<option value="{{v}}" {% if filters.category==v %}selected{% endif %}>{{v}}</option>{% endfor %}</select></label>
+    <label>Model year<select name="year"><option>All</option>{% for v in options.years %}<option value="{{v}}" {% if filters.year|string==v|string %}selected{% endif %}>{{v}}</option>{% endfor %}</select></label>
+    <button class="button primary" type="submit">Apply filters</button><a class="reset" href="/">Reset</a>
+  </form>
+  <div class="kpi-grid">{% for k in payload.kpis %}<article class="kpi"><p>{{k.label}}</p><strong>{{k.value}}</strong><small>{{k.note}}</small></article>{% endfor %}</div>
+</section>
+<section id="analytics" class="section">
+  <div class="section-heading"><div><p class="eyebrow">EXPLORE THE DATA</p><h2>Market analytics</h2></div><p>{{ "{:,}".format(payload.rows) }} rows in current selection</p></div>
+  <div class="chart-grid">
+    <article class="chart-card wide"><div id="sales_trend" class="chart"></div></article>
+    <article class="chart-card"><div id="categories" class="chart"></div></article>
+    <article class="chart-card"><div id="manufacturers" class="chart"></div></article>
+    <article class="chart-card"><div id="regions" class="chart"></div></article>
+    <article class="chart-card"><div id="country_map" class="chart"></div></article>
+    <article class="chart-card"><div id="range_battery" class="chart"></div></article>
+    <article class="chart-card wide"><div id="price_rating" class="chart"></div></article>
+  </div>
+</section>
+<section id="story" class="section story-section">
+  <div class="section-heading"><div><p class="eyebrow">DATA STORY</p><h2>From market overview to insight</h2></div><p>Use this sequence as the narrative for your Tableau Story.</p></div>
+  <div class="story-grid">
+    <article><span>01</span><h3>Market at a glance</h3><p>Start with vehicle records, annual sales units, average range, price, customer rating and battery capacity.</p></article>
+    <article><span>02</span><h3>Category mix</h3><p>Compare recorded annual sales across vehicle categories. Check category definitions before making comparisons.</p></article>
+    <article><span>03</span><h3>Manufacturer performance</h3><p>Rank manufacturers by the sum of recorded annual sales units in the selected data.</p></article>
+    <article><span>04</span><h3>Geographic footprint</h3><p>Compare market regions and investigate whether the distribution changes by model year or category.</p></article>
+    <article><span>05</span><h3>Battery and range</h3><p>Compare range distributions by battery type and consider battery capacity and charging characteristics.</p></article>
+    <article><span>06</span><h3>Key insights</h3><p>Summarize verified findings, their business implications and the dataset's limitations.</p></article>
+  </div>
+  <div class="insights"><h3>Current selection: observations</h3><ul>{% for insight in payload.insights %}<li>{{insight}}</li>{% endfor %}</ul><p class="muted">These observations are generated from the current data selection. Review them against the source and do not treat them as independently verified market statistics.</p></div>
+</section>
+<section id="tableau" class="section tableau-section">
+  <div class="section-heading"><div><p class="eyebrow">TABLEAU PUBLIC INTEGRATION</p><h2>Published dashboard & story</h2></div></div>
+  <p>The published Tableau Public Story is embedded below. Use the Story navigation controls to move between the market overview, category, manufacturer, ratings, geography, battery analysis and key insights.</p>
+  <article class="embed-card tableau-live-card">
+    <div class="tableau-frame-wrap">
+      <iframe
+        title="Electric Vehicle Market Performance & Insights — Tableau Story"
+        src="https://public.tableau.com/views/ElectricVehicleMarketPerformanceInsights_17930441877120/EVMarketStory?:showVizHome=no&:embed=true&:language=en-US&:display_count=n&publish=yes"
+        loading="lazy"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p class="tableau-open-link"><a href="https://public.tableau.com/views/ElectricVehicleMarketPerformanceInsights_17930441877120/EVMarketStory?:language=en-US&publish=yes" target="_blank" rel="noopener noreferrer">Open the Story directly on Tableau Public ↗</a></p>
+  </article>
+</section>
+<section class="section conclusion">
+  <p class="eyebrow">ABOUT THIS PROJECT</p><h2>Turning EV data into decisions</h2>
+  <p>This student project combines data preparation, exploratory analysis, interactive visualization, a Tableau storytelling workflow and Flask-based web integration. All conclusions should be based on the selected dataset and clearly state its scope.</p>
+</section>
+</main>
+<footer><span>EV Insights · Student Data Analytics Project</span><span>Built with Flask, pandas, Plotly and Tableau Public integration guidance</span></footer>
+<script>
+const charts = {{ payload.charts|tojson }};
+for (const [id, json] of Object.entries(charts)) {
+  const fig = JSON.parse(json);
+  Plotly.newPlot(id, fig.data, fig.layout, {responsive:true, displaylogo:false});
+}
+</script>
+</body>
+</html>
