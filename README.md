@@ -115,7 +115,9 @@ pytest -q
 
 ## Tableau workflow
 
-The Tableau worksheets, dashboard, and Story were created in Tableau Public Desktop and published separately to Tableau Public. See [`docs/tableau_guide.md`](docs/tableau_guide.md) for the workflow. The Flask page embeds the published Story; if its Tableau URL changes, update the embed URL in `templates/index.html`.
+The Tableau worksheets, dashboard, and Story were created in Tableau Public Desktop and published separately to Tableau Public. See ## Tableau Dashboard
+
+Explore the interactive [Electric Vehicle Market Performance & Insights Story](https://public.tableau.com/views/ElectricVehicleMarketPerformanceInsights_17930441877120/EVMarketStory?:language=en-US&publish=yes). for the workflow. The Flask page embeds the published Story; if its Tableau URL changes, update the embed URL in `templates/index.html`.
 
 ## Project structure
 
