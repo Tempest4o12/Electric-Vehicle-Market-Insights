@@ -1,157 +1,97 @@
 # Electric Vehicle Market Performance & Insights
 
-An interactive electric-vehicle (EV) market analytics project built with **Python, Flask, pandas, Plotly, and Tableau Public**. The project combines a local web dashboard with a published Tableau Story to explore vehicle categories, manufacturers, sales, ratings, geography, and battery performance.
-
-## Live Tableau Story
-
-**Explore the published Tableau Story:** [Electric Vehicle Market Performance & Insights](https://public.tableau.com/views/ElectricVehicleMarketPerformanceInsights_17930441877120/EVMarketStory?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link)
-
-The Flask website embeds this Story in its Tableau section. An internet connection is required to view the embedded Tableau content.
+A student data-analytics project combining **Flask**, **pandas**, **Plotly**, and a **Tableau Desktop/Public dashboard and story workflow**.
 
 ## Features
+- Interactive web dashboard with manufacturer, region, category, and model-year filters.
+- KPI cards for distinct vehicle records, annual sales units, average range, average listed price, average customer rating, and average battery capacity.
+- Charts for model-year sales trend, category performance, top manufacturers, market regions, battery/range distribution, and price versus rating.
+- Tableau implementation guide based on the Skill Wallet video transcripts.
+- Kaggle data collection script and basic automated tests.
+- Bundled 500-row sample dataset so the application can run immediately.
 
-- Flask web application with interactive Plotly visualizations.
-- Dashboard filters for manufacturer, market region, vehicle category, and model year.
-- KPI summaries and charts for vehicle records, sales, range, price, ratings, and battery characteristics, depending on the columns available in the selected data.
-- Tableau Story covering EV categories, manufacturers, annual sales, customer ratings, geography, battery performance, and key insights.
-- Included 500-row sample CSV so the app can run without downloading the full dataset.
-- Script to download the source dataset from Kaggle, plus basic automated tests.
+## Important data note
+The repository contains a **500-row sample**, not the complete dataset. The full dataset is excluded from Git because it is large. For final analysis, use the provided ZIP's `ev_market_train.csv` or download the source dataset. The test file is not merged into the training data.
 
-## Data source and download
+## Quick start
 
-The full dataset is **not stored in this GitHub repository** because the CSV files are large. The repository includes a small sample for a quick start; use the full dataset to reproduce the analysis on the complete training data.
-
-- **Source:** [Electric Vehicle Market Classification Dataset on Kaggle](https://www.kaggle.com/datasets/tharishreddy22/electric-vehicle-market-classification-dataset)
-- **Kaggle dataset ID:** `tharishreddy22/electric-vehicle-market-classification-dataset`
-- **Expected training file:** `ev_market_train.csv`
-- **Optional test file:** `ev_market_test.csv`
-
-### Option A — Download through Kaggle in your browser
-
-1. Open the Kaggle dataset page linked above and sign in to Kaggle if prompted.
-2. Download the dataset archive.
-3. Extract the archive on your computer.
-4. Copy `ev_market_train.csv` into this project's `data/` folder, so the path is `data/ev_market_train.csv`.
-5. Optionally copy `ev_market_test.csv` into `data/` if you need it for your own analysis. The Flask app uses the training CSV; it does not merge the test file into the training data.
-
-### Option B — Download using the included script
-
-After installing the project requirements, run:
-
-```bash
-python scripts/download_data.py
-```
-
-The script uses KaggleHub to retrieve the dataset and copy CSV files into `data/`. Access requirements may vary by Kaggle account and environment. If the script fails, use Option A above and manually place `ev_market_train.csv` in `data/`.
-
-**Data and licensing note:** The dataset is hosted by its original publisher on Kaggle. Review the dataset page, license, and any applicable terms before redistributing the source CSV or using it outside this educational project. This repository links to the source rather than republishing the full data.
-
-## Run locally
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/Tempest4o12/Electric-Vehicle-Market-Insights.git
-cd Electric-Vehicle-Market-Insights
-```
-
-Or download the repository ZIP from GitHub and extract it.
-
-### 2. Create and activate a virtual environment
-
-**Windows PowerShell:**
-
+### 1. Create a virtual environment
+Windows PowerShell:
 ```powershell
 py -m venv .venv
 .venv\Scripts\Activate.ps1
-```
-
-**macOS/Linux:**
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 3. Install dependencies
-
-```bash
 python -m pip install -r requirements.txt
 ```
 
-### 4. Start the application
+macOS/Linux:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
 
+### 2. Run with the bundled sample
 ```bash
 python app.py
 ```
+Open http://127.0.0.1:5000
 
-Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
+### 3. Use the full training dataset
+Extract `ev_market_train.csv` from the supplied `archive.zip` and copy it into `data/ev_market_train.csv`. The app automatically prefers that file over the sample.
 
-By default, the app uses `data/ev_market_train.csv` if it exists; otherwise, it falls back to the bundled sample `data/ev_market_sample.csv`. The app displays which dataset it loaded.
-
-### Use a CSV stored somewhere else (optional)
-
-You can set the `EV_DATA_PATH` environment variable to the full path of a CSV file.
-
-**Windows PowerShell:**
-
+Alternatively, set a path explicitly:
+Windows PowerShell:
 ```powershell
 $env:EV_DATA_PATH="C:\path\to\ev_market_train.csv"
 python app.py
 ```
-
-**macOS/Linux:**
-
+macOS/Linux:
 ```bash
 export EV_DATA_PATH="/path/to/ev_market_train.csv"
 python app.py
 ```
 
-## Run tests
+### 4. Download from Kaggle (optional)
+```bash
+python scripts/download_data.py
+```
+The script uses KaggleHub and may require internet access and Kaggle authentication. It downloads available CSV files into `data/`. Review filenames and schema before using them.
 
+## Tableau workflow
+Follow [`docs/tableau_guide.md`](docs/tableau_guide.md) to connect the CSV, prepare fields, create KPI worksheets and charts, assemble the dashboard, build a multi-point Story, publish both to Tableau Public, and publish the Story and update the iframe `src` in the Tableau section of `templates/index.html` if the public view URL changes.
+
+**Publishing limitation:** This repository does not include a pre-published Tableau Public workbook because publishing requires your Tableau account and the workbook created in Tableau Desktop/Public. The Flask page now embeds the published Tableau Public Story in the Tableau section. The Story remains hosted by Tableau Public, so an internet connection is required to view it.
+
+## Tests
 ```bash
 pytest -q
 ```
 
-## Tableau workflow
-
-The Tableau worksheets, dashboard, and Story were created in Tableau Public Desktop and published separately to Tableau Public. See ## Tableau Dashboard
-
-Explore the interactive [Electric Vehicle Market Performance & Insights Story](https://public.tableau.com/views/ElectricVehicleMarketPerformanceInsights_17930441877120/EVMarketStory?:language=en-US&publish=yes). for the workflow. The Flask page embeds the published Story; if its Tableau URL changes, update the embed URL in `templates/index.html`.
-
-## Project structure
-
+## Repository layout
 ```text
-Electric-Vehicle-Market-Insights/
-├── app.py
-├── src/
-│   ├── data_loader.py
-│   └── analytics.py
-├── scripts/
-│   └── download_data.py
-├── data/
-│   ├── ev_market_sample.csv
-│   └── README.md
-├── templates/
-│   └── index.html
-├── static/css/styles.css
-├── docs/
-│   ├── project_report.md
-│   └── tableau_guide.md
-├── tests/
-│   └── test_analytics.py
-├── requirements.txt
-├── .gitignore
-└── README.md
+app.py
+src/
+  data_loader.py
+  analytics.py
+scripts/
+  download_data.py
+data/
+  ev_market_sample.csv
+templates/
+  index.html
+static/css/styles.css
+tests/test_analytics.py
+docs/
+  project_report.md
+  tableau_guide.md
+requirements.txt
 ```
 
-## Limitations and interpretation
+## Data source
+Kaggle dataset identifier supplied in the project starter code:
+`tharishreddy22/electric-vehicle-market-classification-dataset`
 
-- The bundled sample is for demonstration and is not a substitute for the full dataset.
-- Results depend on the selected dataset and its coverage. Counts of records alone do not prove actual market share.
-- Some battery fields may contain missing values; interpret charts with those gaps in mind.
-- Tableau visualizations are hosted by Tableau Public and require internet access.
+The provided local ZIP contains `ev_market_train.csv` and `ev_market_test.csv`. Verify the source dataset's license and exact schema before redistributing full data.
 
 ## License
-
-The application code is intended for educational use as described in the repository's `LICENSE` file. The dataset remains subject to the terms stated by its original publisher on Kaggle.
+The code is provided for educational use. Dataset licensing remains subject to the dataset publisher's terms.

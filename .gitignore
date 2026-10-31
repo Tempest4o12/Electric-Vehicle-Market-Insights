@@ -1,0 +1,11 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.DS_Store
+data/ev_market_train.csv
+data/ev_market_test.csv
+data/raw/
+instance/
